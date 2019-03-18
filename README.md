@@ -1,29 +1,13 @@
-# hlj-project
+﻿- 项目名称：河狸家
 
-## Project setup
-```
-npm install
-```
+- 官网：https://m.helijia.com
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+- 上线地址
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Run your tests
-```
-npm run test
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- 团队与分工
+	
+  * 组长：江俊隆
+	
+  * 组员： 陈武城、赵福杰、郭有明
