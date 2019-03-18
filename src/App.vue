@@ -22,12 +22,15 @@ export default {
   }
   html,body{width: 100%;height: 100%;}
   ul,ol{
-    list-style:none;}
+    list-style:none;
+    }
   img{
     display:block;
-    border:0;}
+    border:0;
+    }
   header,footer,section,main,nav{
-    display:block;}
+    display:block;
+    }
   a{text-decoration:none;}
   i{font-style:normal;}
 </style>
