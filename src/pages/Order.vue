@@ -1,5 +1,7 @@
 <template>
+
     <div class="orderBox">
+	<Xheader :name="name"></Xheader>	
         <div class="orderList">
             <div class="orderItem">
                 <div class="itemHeader">
@@ -25,10 +27,17 @@
 
 <script>
 import Xfooter from '../components/Xfooter';
+import Xheader from '../components/Xheader';
 
 export default {
     components: {
-        Xfooter
+        Xfooter,
+        Xheader
+    },
+    data(){
+    	return{
+    		name:'我的订单'
+    	}
     }
 }
 </script>
