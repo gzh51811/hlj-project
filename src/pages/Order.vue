@@ -15,7 +15,7 @@
                     </div>
                     <div class="priceBox">
                         <div class="price">￥{{item.price}}</div>
-                        <span>x{{item.num}}</span>
+                        <span v-text="item.num">x{{item.num}}</span>
                     </div>
                 </div>
             </div>            

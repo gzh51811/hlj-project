@@ -23,5 +23,7 @@ export default {
 </script>
 
 <style scoped>
-
+    *{
+        border: 1px red;
+    }
 </style>
