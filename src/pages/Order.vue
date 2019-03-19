@@ -1,5 +1,4 @@
 <template>
-
     <div class="orderBox">
 	<Xheader :name="name"></Xheader>	
         <div class="orderList">
