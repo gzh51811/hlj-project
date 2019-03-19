@@ -3,10 +3,12 @@ import VueRouter from 'vue-router';
 import axios from 'axios';
 
 import ElementUI from 'element-ui';
+import mint from 'mint-ui';
+import 'mint-ui/lib/style.css'
 import 'element-ui/lib/theme-chalk/index.css';
 
 import App from './App.vue';
-
+Vue.use(mint);
 Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.config.productionTip = false
