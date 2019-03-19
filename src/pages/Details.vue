@@ -2,19 +2,19 @@
     <div>
         <Xheader name="商品详情" link="/list"/>
         <div class="imgBox">
-            <img src="../assets/details.jpg" alt="">
+            <img v-if="itemData[0]" :src="itemData[0].imgurl">
         </div>
         <div class="priceBox">
             <div class="priceItem">
-                <span>￥588</span>
+                <span v-if="itemData[0]">￥{{itemData[0].nprice}}</span>
             </div>
             <div class="sellMsg">
                 <span class="way">上门</span>
-                <span class="like">6666人喜欢</span>
+                <span class="like" v-if="itemData[0]">{{itemData[0].like}}人喜欢</span>
             </div>
         </div>
         <div class="detailsBox">
-            <span class="title">588选5项特惠款</span>
+            <span v-if="itemData[0]" class="title" v-text="itemData[0].title"></span>
         </div>
         <div class="promiseBox">
             <img src="../assets/protect.jpg">
@@ -36,7 +36,7 @@
                     <span>收藏</span>
                 </a>
             </div>
-            <span class="buyBtn">立即购买</span>
+            <span class="buyBtn" @click="addItem">立即购买</span>
         </div>
     </div>
 </template>
@@ -46,7 +46,62 @@ import	Xheader from '../components/Xheader.vue';
 export default {
     components:{
 	   	Xheader
-	}
+    },
+    data(){
+        return{
+            itemData:[]
+        }
+    },
+    methods:{
+        addItem(){
+            let token = localStorage.getItem('token');
+            //登录状态判断
+            if(token !=null){
+                this.$axios({
+                    method: "post",
+                    url: "http://localhost:3000/users/isLogin",
+                    data: this.$qs.stringify({
+                        isToken: token,
+                    })
+                }).then(res => {
+                    let fn = {
+                        true: async () => {
+                            await this.$axios({
+                            method: "post",
+                            url: "http://localhost:3000/item/addItem",
+                            data: this.$qs.stringify({
+                                sname: res.data.curuser,
+                                simgurl: this.itemData[0].imgurl,
+                                stitle: this.itemData[0].title,
+                                sprice: this.itemData[0].nprice,
+                                sperson: this.itemData[0].person,
+                                snum: 1
+                                })
+                            })
+                            alert('购买成功');
+                        },
+                        false: () => {
+                            alert('请先登录');
+                        }
+                    };
+                    fn[res.data.status]();
+                });
+            }
+                
+        }
+    },
+    async created(){
+        let _id = location.href.split('#')[1].split('/')[2];
+        //请求数据
+        let result = await this.$axios({
+            method: "post",
+            url: "http://localhost:3000/item/getItem",
+            data: this.$qs.stringify({
+                id: _id,
+            })
+        })
+        this.itemData = this.itemData.concat(result.data);
+	 }
 }
 </script>
 

@@ -34,7 +34,7 @@ const routes = [
     { path: '/order',component: Order},
     { path: '/mine',component: Mine},
     { path: '/list',component: List},
-    { path: '/details',component: Details},
+    { path: '/details/:id',component: Details},
     { path: '/login',component: Login},
     { path: '/register',component: Register},
     { path: '/commit',component: Commit}

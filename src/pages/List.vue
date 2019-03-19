@@ -2,7 +2,7 @@
     <div>
         <Xheader :name='name' :link="link"></Xheader>	
 		<ul>
-			<li v-for="(goods,idx) in itemData" class="list-main" :key="idx">
+			<li v-for="(goods,idx) in itemData" class="list-main" :key="idx" @click="goDetails(goods._id)">
 				<img class="list-img" :src="goods.imgurl"/>
 				<div class="list-conten">
 					<p class="conten-name">{{goods.title}}</p>
@@ -34,7 +34,9 @@ export default {
 			let data = await this.$axios.get('http://localhost:3000/item/getData');
 			this.itemData = this.itemData.concat(data.data);
 		},
-		
+		goDetails(id){
+			this.$router.push(`/details/${id}`);
+		}
     },
     created(){
         this.getItemData();

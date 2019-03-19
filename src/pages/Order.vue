@@ -2,20 +2,20 @@
     <div class="orderBox">
 	<Xheader :name="name" :link="link"></Xheader>	
         <div class="orderList">
-            <div class="orderItem">
+            <div class="orderItem" v-for="(item,idx) in orderData" :key="idx">
                 <div class="itemHeader">
                     <span>手艺人：</span>
-                    <span>三七</span>
+                    <span v-text="item.person"></span>
                 </div>
                 <div class="itemMain">
-                    <img src="../assets/face1.webp">
+                    <img :src="item.imgurl">
                     <div class="infoBox">
-                        <div class="title">588选5项特惠款</div>
+                        <div class="title" v-text="item.title"></div>
                         <span>无忧保障</span>
                     </div>
                     <div class="priceBox">
-                        <div class="price">￥588</div>
-                        <span>x1</span>
+                        <div class="price">￥{{item.price}}</div>
+                        <span>x{{item.num}}</span>
                     </div>
                 </div>
             </div>            
@@ -36,8 +36,43 @@ export default {
     data(){
     	return{
             name:'我的订单',
-            link: '/index'
+            link: '/index',
+            orderData:[]
     	}
+    },
+    created(){
+        let token = localStorage.getItem('token');
+        //登录状态判断
+        if(token !=null){
+            this.$axios({
+                method: "post",
+                url: "http://localhost:3000/users/isLogin",
+                data: this.$qs.stringify({
+                    isToken: token,
+                })
+            }).then(res => {
+                let fn = {
+                    true: async () => {
+                        let result = await this.$axios({
+                        method: "post",
+                        url: "http://localhost:3000/item/getOrder",
+                        data: this.$qs.stringify({
+                            suser: res.data.curuser
+                            })
+                        })    
+                        this.orderData = this.orderData.concat(result.data);               
+                    },
+                    false: () => {
+                        alert('未登录，跳转到登录页');
+                        this.$router.push('/login');
+                    }
+                };
+                fn[res.data.status]();
+            });
+        }else{
+            alert('未登录，跳转到登录页');
+            this.$router.push('/login');
+        }
     }
 }
 </script>
