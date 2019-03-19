@@ -7,7 +7,9 @@
 				
 			</div>
 			<div class="mytop2">
-				<img class="mytop-img3" src="../assets/mytop3.png" alt="" />
+				<router-link to="/login">
+					<img class="mytop-img3" src="../assets/mytop3.png" alt="" />
+				</router-link>
 				<div class="mytop-r">
 					<a href="##"><span class="btn-login">未登录</span></a><br />
 					<span class="mytop-tex">普通会员></span>

@@ -35,7 +35,7 @@ export default {
     },
     data(){
     	return{
-    		name:'我的订单'
+    	    name:'我的订单'
     	}
     }
 }

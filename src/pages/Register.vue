@@ -1,9 +1,9 @@
 <template>
 	<div class="reg-container">
-		<Xheader :name='name'></Xheader>
+		<Xheader :name='name' :link="link"></Xheader>
 		<el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-		  <el-form-item  prop="age">
-		    <el-input id="tel" placeholder="手机号" v-model.number="ruleForm2.age" ></el-input>
+		  <el-form-item  prop="user">
+		    <el-input id="tel" placeholder="手机号" v-model.number="ruleForm2.user" ></el-input>
 		  </el-form-item>
 		  <el-form-item prop="pass">
 		    <el-input id="password" placeholder="密码" type="password" v-model="ruleForm2.pass" autocomplete="off"></el-input>
@@ -33,8 +33,7 @@ import	Xheader from '../components/Xheader.vue';
 	   		Xheader
 	   	},
     data() {
-    	
-      var checkAge = (rule, value, callback) => {
+      var checkUser = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('账号不能为空'));
         }
@@ -42,7 +41,7 @@ import	Xheader from '../components/Xheader.vue';
           if (!Number.isInteger(value)) {
             callback(new Error('请输入数字值'));
           } else {
-            if (value < 18) {
+            if (value < 11) {
               callback(new Error('请输入11位手机号码'));
             } else {
               callback();
@@ -70,11 +69,12 @@ import	Xheader from '../components/Xheader.vue';
         }
       };
       return {	
-		name:'注册',
+				name:'注册',
+				link: '/login',
         ruleForm2: {
           pass: '',
           checkPass: '',
-          age: ''
+          user: ''
         },
         rules2: {
           pass: [
@@ -83,8 +83,8 @@ import	Xheader from '../components/Xheader.vue';
           checkPass: [
             { validator: validatePass2, trigger: 'blur' }
           ],
-          age: [
-            { validator: checkAge, trigger: 'blur' }
+          user: [
+            { validator: checkUser, trigger: 'blur' }
           ]
         }
       };
@@ -93,7 +93,25 @@ import	Xheader from '../components/Xheader.vue';
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+							this.$axios({
+							method: "post",
+							url: "http://localhost:3000/users/register",
+							data: this.$qs.stringify({
+								inputUser: this.ruleForm2.user,
+								inputPass: this.ruleForm2.pass
+							})
+						}).then(res => {
+								let fn = {
+								success: () => {
+									alert('注册成功');
+									this.$router.push('/login');
+								},
+								fail: () => {
+									alert('账号已存在，请更换');
+								}
+							};
+							fn[res.data.status]();
+						});
           } else {
             console.log('error submit!!');
             return false;

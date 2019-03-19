@@ -1,6 +1,6 @@
 <template>
   <div class="reg-container">
-    <Xheader :name="name"></Xheader>
+    <Xheader :name="name" :link="link"></Xheader>
 
     <div class="log-top">
       <span class="log-top-l">账号登录</span>
@@ -14,8 +14,8 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item prop="age">
-        <el-input id="tel" placeholder="手机号" v-model.number="ruleForm2.age"></el-input>
+      <el-form-item prop="user">
+        <el-input id="tel" placeholder="手机号" v-model.number="ruleForm2.user"></el-input>
       </el-form-item>
       <el-form-item prop="pass">
         <el-input
@@ -28,11 +28,13 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button id="btn-reg" type="primary" @click="submitForm('ruleForm2')">注册</el-button>
+        <el-button id="btn-reg" type="primary" @click="submitForm('ruleForm2')">登录</el-button>
       </el-form-item>
     </el-form>
     <div class="log-foot">
-      <span class="log-foot-l">注册账号</span>
+      <router-link to="/register">
+        <span class="log-foot-l">注册账号</span>
+      </router-link>
       <span class="log-foot-r">忘记密码？</span>
     </div>
 
@@ -49,7 +51,7 @@ export default {
     Xheader
   },
   data() {
-    var checkAge = (rule, value, callback) => {
+    var checkUser = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("账号不能为空"));
       }
@@ -57,7 +59,7 @@ export default {
         if (!Number.isInteger(value)) {
           callback(new Error("请输入数字值"));
         } else {
-          if (value < 18) {
+          if (value < 11) {
             callback(new Error("请输入11位手机号码"));
           } else {
             callback();
@@ -77,14 +79,14 @@ export default {
     };
     return {
       name: "登录",
+      link: '/mine',
       ruleForm2: {
         pass: "",
-        checkPass: "",
-        age: ""
+        user: ""
       },
       rules2: {
         pass: [{ validator: validatePass, trigger: "blur" }],
-        age: [{ validator: checkAge, trigger: "blur" }]
+        user: [{ validator: checkUser, trigger: "blur" }]
       }
     };
   },
@@ -93,7 +95,25 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
 					//发送请求验证
-          alert("submit!");
+          this.$axios({
+            method: "post",
+            url: "http://localhost:3000/users/login",
+            data: this.$qs.stringify({
+              inputUser: this.ruleForm2.user,
+              inputPass: this.ruleForm2.pass
+            })
+          }).then(res => {
+              let fn = {
+              success: () => {
+                localStorage.setItem("token", res.data.token);
+                this.$router.push('/index');
+              },
+              fail: () => {
+                alert('账号或密码错误');
+              }
+            };
+            fn[res.data.status]();
+          });
         } else {
           console.log("error submit!!");
           return false;
