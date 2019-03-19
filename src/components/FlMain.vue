@@ -13,8 +13,10 @@
     			<span class="FlMain-top3">TOP款式</span>
     		</div>
     		<ul>
-    			<li v-for="(goods,idx) in imgurl" class="FlMain-img">
-    				<img :src="goods.url" alt="" />
+    			<li v-for="(goods,idx) in imgurl" class="FlMain-img" :key="idx">
+						<router-link to="/list">
+							<img :src="goods.url"/>
+						</router-link> 
     				<span>{{goods.name}}</span>
     			</li>
     			

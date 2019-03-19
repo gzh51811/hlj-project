@@ -11,7 +11,7 @@
 					<img class="mytop-img3" src="../assets/mytop3.png" alt="" />
 				</router-link>
 				<div class="mytop-r">
-					<a href="##"><span class="btn-login">未登录</span></a><br />
+					<a href="##"><span class="btn-login" v-text="curuser"></span></a><br />
 					<span class="mytop-tex">普通会员></span>
 				</div>
 				
@@ -25,7 +25,7 @@
 				<span class="mydd-r">查看全部></span>
 			</div>
 			<ul class="myfk">
-					<li v-for="(goods,idx) in fk" class="myfkli">
+					<li v-for="(goods,idx) in fk" class="myfkli" :key="idx">
 						<img class="myfkli-img" :src="goods.url" alt="" />
 						<span class="mytex2">{{goods.name}}</span>
 					</li>					
@@ -37,7 +37,7 @@
 					<span class="mydd-r">查看全部></span>
 				</div>
 				<ul class="myfk">
-					<li v-for="(goods,idx) in pt" class="myfkli">
+					<li v-for="(goods,idx) in pt" class="myfkli" :key="idx">
 						<img class="myfkli-img" :src="goods.url" alt="" />
 						<span class="mytex2">{{goods.name}}</span>
 					</li>					
@@ -55,7 +55,8 @@ export default {
         Xfooter
     },
     data(){
- 			return{		
+ 			return{
+			curuser: '未登录',	
  			fk:[
  			{
  				url:require('../assets/mydd.png'),
@@ -143,7 +144,29 @@ export default {
  			
  			]
  		}
- 		}
+	 },
+	 created(){
+		let token = localStorage.getItem('token');
+		if(token !=null){
+			this.$axios({
+				method: "post",
+				url: "http://localhost:3000/users/isLogin",
+				data: this.$qs.stringify({
+					isToken: token,
+				})
+			}).then(res => {
+				let fn = {
+					true: () => {
+						this.curuser = res.data.curuser;
+					},
+					false: () => {
+						this.curuser = '未登录';
+					}
+				};
+				fn[res.data.status]();
+			});
+		}
+	 }
 }
 </script>
 
@@ -201,7 +224,6 @@ export default {
 	}
 	.mymain{
 		background: #F7F7F7;
-		height: 600px;
 		margin-top: 10px;
 	}
 	.mydd{

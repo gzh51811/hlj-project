@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Xheader name="商品详情" link="/list"/>
         <div class="imgBox">
             <img src="../assets/details.jpg" alt="">
         </div>
@@ -41,8 +42,11 @@
 </template>
 
 <script>
+import	Xheader from '../components/Xheader.vue';
 export default {
-    
+    components:{
+	   	Xheader
+	}
 }
 </script>
 

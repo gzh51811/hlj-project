@@ -31,6 +31,6 @@ export default {
   header,footer,section,main,nav{
     display:block;
     }
-  a{text-decoration:none;}
+  a{text-decoration:none;color: #000}
   i{font-style:normal;}
 </style>

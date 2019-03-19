@@ -1,6 +1,6 @@
 <template>
     <div class="orderBox">
-	<Xheader :name="name"></Xheader>	
+	<Xheader :name="name" :link="link"></Xheader>	
         <div class="orderList">
             <div class="orderItem">
                 <div class="itemHeader">
@@ -35,7 +35,8 @@ export default {
     },
     data(){
     	return{
-    	    name:'我的订单'
+            name:'我的订单',
+            link: '/index'
     	}
     }
 }

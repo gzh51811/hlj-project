@@ -1,111 +1,43 @@
 <template>
     <div>
-        <Xheader :name='name'></Xheader>	
+        <Xheader :name='name' :link="link"></Xheader>	
 		<ul>
-			<li  v-for="(goods,idx) in imgurl" class="list-main">
-				<img class="list-img" :src="goods.url" alt="" />
+			<li v-for="(goods,idx) in itemData" class="list-main" :key="idx">
+				<img class="list-img" :src="goods.imgurl"/>
 				<div class="list-conten">
-					<p class="conten-name">{{goods.name}}</p>
-					<span class="conten-price">￥{{goods.price}}</span>
-					<del class="conten-del">￥{{goods.del}}</del>
-					<span class="conten-but">{{goods.but}}</span>
+					<p class="conten-name">{{goods.title}}</p>
+					<span class="conten-price">￥{{goods.nprice}}</span>
+					<del class="conten-del">￥{{goods.oprice}}</del>
+					<span class="conten-but">抢购</span>
 				</div>
 			</li>		
 		</ul>
-		
     </div>
 </template>
 
 <script>
 import	Xheader from '../components/Xheader.vue';
-// 数据地址链接
-// https://search-api.helijia.com/search-api/choice/recommendForUser?scope=1&latitude=23120049&longitude=113307650&cityCode=110100&t=1552724999008
 export default {
 	components:{
-	   		Xheader
-	   	},
+	   	Xheader
+	},
     data(){
         return {
-            shopData:[],
-            name:"为你甄选",
-        tabPosition: 'left',
-        imgurl:[
-        		{
-        			url:require('../assets/listimg.png'),
-        			name:'【安神助眠】头部调理缓解头痛失眠',
-        			price:'138',
-        			del:'398',
-        			but:'抢购'
-        		},
-        		{
-        			url:require('../assets/listimg.png'),
-        			name:'【安神助眠】头部调理缓解头痛失眠',
-        			price:'138',
-        			del:'398',
-        			but:'抢购'
-        		},
-        		{
-        			url:require('../assets/listimg.png'),
-        			name:'【安神助眠】头部调理缓解头痛失眠',
-        			price:'138',
-        			del:'398',
-        			but:'抢购'
-        		},
-        		{
-        			url:require('../assets/listimg.png'),
-        			name:'【安神助眠】头部调理缓解头痛失眠',
-        			price:'138',
-        			del:'398',
-        			but:'抢购'
-        		},
-        		{
-        			url:require('../assets/listimg.png'),
-        			name:'【安神助眠】头部调理缓解头痛失眠',
-        			price:'138',
-        			del:'398',
-        			but:'抢购'
-        		},
-        		{
-        			url:require('../assets/listimg.png'),
-        			name:'【安神助眠】头部调理缓解头痛失眠',
-        			price:'138',
-        			del:'398',
-        			but:'抢购'
-        		},
-        		{
-        			url:require('../assets/listimg.png'),
-        			name:'【安神助眠】头部调理缓解头痛失眠',
-        			price:'138',
-        			del:'398',
-        			but:'抢购'
-        		},
-        		{
-        			url:require('../assets/listimg.png'),
-        			name:'【安神助眠】头部调理缓解头痛失眠',
-        			price:'138',
-        			del:'398',
-        			but:'抢购'
-        		},
-        		{
-        			url:require('../assets/listimg.png'),
-        			name:'【安神助眠】头部调理缓解头痛失眠',
-        			price:'138',
-        			del:'398',
-        			but:'抢购'
-        		}
-        		
-        ]
+            itemData:[],
+			name:"为你甄选",
+			link: '/index',
+			tabPosition: 'left',
         }
     },
     methods:{
-        async getData(){
-            let data = await this.$axios.get('https://search-api.helijia.com/search-api/choice/recommendForUser?scope=1&latitude=23120049&longitude=113307650&cityCode=110100&t=1552724999008');
-            //跨域，服务器代理
-            this.shopData = this.shopData.concat(data);
-        }
+        async getItemData(){
+			let data = await this.$axios.get('http://localhost:3000/item/getData');
+			this.itemData = this.itemData.concat(data.data);
+		},
+		
     },
     created(){
-        this.getData();
+        this.getItemData();
     }
 }
 </script>
