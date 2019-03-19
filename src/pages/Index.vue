@@ -1,9 +1,9 @@
 <template>
     <div>
-        <Ibanner/>
+        <Ibanner />
         <Inav />
         <Imain />
-        <Xfooter/>
+        <Xfooter />
     </div>
 </template>
 
