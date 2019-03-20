@@ -10,11 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.6.1",
-<<<<<<< HEAD
     "mint-ui": "^2.2.13",
-=======
-    "qs": "^6.6.0",
->>>>>>> 93c669b53ce2debfe6922dbb449da7b2b4926b15
     "vue": "^2.6.6",
     "vue-router": "^3.0.2"
   },
