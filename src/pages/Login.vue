@@ -97,7 +97,7 @@ export default {
 					//发送请求验证
           this.$axios({
             method: "post",
-            url: "http://localhost:3000/users/login",
+            url: "http://39.97.101.232:3000/users/login",
             data: this.$qs.stringify({
               inputUser: this.ruleForm2.user,
               inputPass: this.ruleForm2.pass
